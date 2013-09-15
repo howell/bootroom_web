@@ -7,7 +7,7 @@ class PlayersController < ApplicationController
     @team = Team.find(params[:player][:team_id])
     @player = @team.players.build(player_params)
     @player.save
-    redirect_to @team
+    render 'new'
   end
 
   private

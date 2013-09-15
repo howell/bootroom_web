@@ -7,10 +7,8 @@ class GamesController < ApplicationController
     @game = Game.create(game_params)
     if @game.save
       cookies.permanent[:game_id] = @game.id
-      redirect_to @game
-    else
-      render 'new'
     end
+      render 'new'
   end
 
   def show

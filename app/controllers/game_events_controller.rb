@@ -6,10 +6,8 @@ class GameEventsController < ApplicationController
   def create
     @game_event = GameEvent.create(game_event_params)
     if @game_event.save
-      redirect_to @game_event
-    else
-      render 'new'
     end
+      render 'new'
   end
 
   def show
