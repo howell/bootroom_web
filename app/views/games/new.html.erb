@@ -1,2 +1,18 @@
-<h1>Games#new</h1>
-<p>Find me in app/views/games/new.html.erb</p>
+<h1>New Game</h1>
+<%= form_for @game, authenticity_token: false do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+
+  <%= f.label :home_team_id %>
+  <%= f.number_field :home_team_id %>
+
+  <%= f.label :away_team_id %>
+  <%= f.number_field :away_team_id %>
+
+  <%= f.label :home_final_score %>
+  <%= f.number_field :home_final_score %>
+
+  <%= f.label :away_final_score %>
+  <%= f.number_field :away_final_score %>
+
+  <%= f.submit "Create Game" %>
+<% end %>

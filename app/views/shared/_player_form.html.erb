@@ -1,0 +1,21 @@
+<%= form_for @player, authenticity_token: false do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+
+  <%= f.label :first_name %>
+  <%= f.text_field :first_name %>
+
+  <%= f.label :last_name %>
+  <%= f.text_field :last_name %>
+
+  <%= f.label :number %>
+  <%= f.number_field :number %>
+
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+
+  <%= f.label :team_id %>
+  <%= f.number_field :team_id %>
+
+  <%= f.submit "Create Player" %>
+
+<% end %>

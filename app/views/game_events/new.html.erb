@@ -1,2 +1,28 @@
-<h1>GameEvents#new</h1>
-<p>Find me in app/views/game_events/new.html.erb</p>
+<h1>New Game Event</h1>
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for @game_event, authenticity_token: false do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label :timestamp %>
+      <%= f.text_field :timestamp %>
+
+      <%= f.label :player_id %>
+      <%= f.text_field :player_id %>
+
+      <%= f.label :game_id %>
+      <%= f.text_field :game_id %>
+
+      <%= f.label :event_type %>
+      <%= f.text_field :event_type %>
+
+      <%= f.label :event_subtype %>
+      <%= f.text_field :event_subtype %>
+
+      <%= f.label :other_player_id %>
+      <%= f.text_field :other_player_id %>
+
+      <%= f.submit "Create Event", class: "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>
