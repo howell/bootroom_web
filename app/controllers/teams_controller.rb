@@ -13,10 +13,8 @@ class TeamsController < ApplicationController
     @team = Team.new(team_params)
     if @team.save
       cookies.permanent[:team_id] = @team.id
-      redirect_to @team
-    else
-      render 'new'
     end
+    render 'new'
   end
 
   private
