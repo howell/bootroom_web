@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130915031840) do
+ActiveRecord::Schema.define(version: 20130916021933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 20130915031840) do
     t.integer  "other_player_id"
   end
 
+  add_index "game_events", ["event_type", "event_subtype"], name: "index_game_events_on_event_type_and_event_subtype", using: :btree
+  add_index "game_events", ["event_type"], name: "index_game_events_on_event_type", using: :btree
   add_index "game_events", ["game_id"], name: "index_game_events_on_game_id", using: :btree
   add_index "game_events", ["player_id"], name: "index_game_events_on_player_id", using: :btree
 

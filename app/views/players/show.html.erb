@@ -1,4 +1,4 @@
 <%= render @player %>
 
 <h3>Events</h3>
-<%= render @player.game_events %>
+<%= render @player.game_events.sort_by { |ge| ge.timestamp } %>
