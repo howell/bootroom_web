@@ -9,4 +9,8 @@ class Team < ActiveRecord::Base
     self.name = name.downcase
     self.league = league.downcase
   end
+
+  def all_games
+    home_games + away_games
+  end
 end

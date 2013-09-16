@@ -1,5 +1,5 @@
 <p>
-  <h1>Team Name: <%= @team.name %></h1>
+  <h1><%= @team.name %></h1>
 </p>
 <p>
   <h3>League: <%= @team.league %></h3>
@@ -8,5 +8,20 @@
   <h3>Roster</h3>
   <ul>
     <%= render @players %>
+  </ul>
+</p>
+<p>
+  <h3>Games</h3>
+  <ul>
+    <% @team.home_games.each do |g| %>
+      <li>
+        <%= link_to "vs #{ g.away_team.name }", g %>
+      </li>
+    <% end %>
+    <% @team.away_games.each do |g| %>
+      <li>
+        <%= link_to "at #{ g.home_team.name }", g %>
+      </li>
+    <% end %>
   </ul>
 </p>

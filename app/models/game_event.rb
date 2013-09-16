@@ -40,7 +40,7 @@ class GameEvent < ActiveRecord::Base
     when 4
       shot_against_subtype
     else
-      "No subtype"
+      "Undefined"
     end
   end
 
