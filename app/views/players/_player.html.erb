@@ -1,5 +1,5 @@
 <li>
-  <%= player.first_name %> <%= player.last_name %>,
-  #<%= player.number %>, email: <%= player.email %>
-  Team ID: <%= player.team_id %>
+  <%= link_to player.full_name, player %>
+  #<%= player.number %>, email: <%= player.email %>,
+  Team: <%= player.team.name %>
 </li>

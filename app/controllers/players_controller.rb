@@ -10,6 +10,10 @@ class PlayersController < ApplicationController
     render 'new'
   end
 
+  def show
+    @player = Player.find(params[:id])
+  end
+
   private
 
     def player_params

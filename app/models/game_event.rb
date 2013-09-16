@@ -2,6 +2,10 @@ class GameEvent < ActiveRecord::Base
   belongs_to :game
   belongs_to :player
 
+  def game_time
+    "#{ (timestamp / 60) + 1 }'"
+  end
+
   def event_name
     case event_type
     when 1

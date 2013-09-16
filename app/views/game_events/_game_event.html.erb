@@ -1,12 +1,12 @@
-Game: <%= game_event.game_id %>
-<br/>
-Second: <%= game_event.timestamp %>
-<br/>
-Player:
-<%= game_event.player.first_name %> <%= game_event.player.last_name %>
-<br/>
-Type: <%= game_event.event_name %>
-<br/>
-SubType: <%= game_event.subtype_name %>
-<br/>
-Other Player: <%= game_event.other_player_id %>
+<li>
+<p>
+<%= game_event.game_time %>: <%= game_event.player.full_name %> did
+ <%= game_event.event_name %>
+<% unless game_event.subtype_name == "Undefined" %>
+  , <%= game_event.subtype_name %>
+<% end %>
+<% unless game_event.other_player_id == 0 %>
+  with <%= Player.find(game_event.other_player_id).full_name %>
+<% end %>
+</p>
+</li>

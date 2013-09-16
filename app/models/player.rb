@@ -7,4 +7,8 @@ class Player < ActiveRecord::Base
     self.last_name = last_name.downcase
     self.email = email.downcase
   end
+
+  def full_name
+    first_name.capitalize + " " + last_name.capitalize
+  end
 end

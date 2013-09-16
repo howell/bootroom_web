@@ -2,15 +2,11 @@
   <h1>Team Name: <%= @team.name %></h1>
 </p>
 <p>
-  <h2>League: <%= @team.league %></h2>
+  <h3>League: <%= @team.league %></h3>
 </p>
 <p>
   <h3>Roster</h3>
   <ul>
     <%= render @players %>
   </ul>
-</p>
-<p>
-  <h3>Add Player</h3>
-  <%= render 'shared/player_form' %>
 </p>
