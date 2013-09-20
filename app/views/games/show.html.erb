@@ -2,7 +2,9 @@
 <% unless @player.nil? %>
   <h2><%= @player.full_name %></h2>
 <% end %>
-<% unless @game_events.nil? %>
-  <h3>Events</h3>
-  <%= render @game_events.sort_by { |ge| ge.timestamp } %>
+<h3>Events</h3>
+<% unless @player.nil? %>
+  <%= render @player.game_events.select { |ge| ge.game_id == @game.id }.sort_by { |ge| ge.timestamp } %>
+  <% else %>
+  <%= render @game.game_events.sort_by { |ge| ge.timestamp } %>
 <% end %>

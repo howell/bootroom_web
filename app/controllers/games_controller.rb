@@ -16,7 +16,6 @@ class GamesController < ApplicationController
     unless params[:player_id].blank?
       @player = Player.find(params[:player_id])
     end
-    @game_events = GameEvent.find_by(game_events_params)
   end
 
   private

@@ -95,10 +95,6 @@ class GameEvent < ActiveRecord::Base
     end
   end
 
-  def sort_by
-    self
-  end
-
   def has_other_player
     !(other_player_id.blank? || other_player_id == 0)
   end
