@@ -1,4 +1,11 @@
 <%= render @player %>
 
-<h3>Events</h3>
-<%= render @player.game_events.sort_by { |ge| ge.timestamp } %>
+<h3>Games</h3>
+<ul>
+<% @player.team.all_games.each do |game| %>
+  <li>
+  <%= link_to game.pretty_title, player_game_path(@player, game) %>
+  </li>
+<% end %>
+</ul>
+

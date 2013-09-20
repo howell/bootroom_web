@@ -1,6 +1,7 @@
 class GameEvent < ActiveRecord::Base
   belongs_to :game
   belongs_to :player
+  validates :player_id, presence: true
 
   def game_time
     "#{ (timestamp / 60) + 1 }'"
@@ -92,5 +93,13 @@ class GameEvent < ActiveRecord::Base
     else
       "Undefined"
     end
+  end
+
+  def sort_by
+    self
+  end
+
+  def has_other_player
+    !(other_player_id.blank? || other_player_id == 0)
   end
 end

@@ -1,6 +1,8 @@
 Bootroom::Application.routes.draw do
   resources :teams
-  resources :players
+  resources :players do
+    resources :games, only: [:show]
+  end
   resources :games
   resources :game_events
   # The priority is based upon order of creation: first created -> highest priority.

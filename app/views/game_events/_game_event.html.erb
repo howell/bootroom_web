@@ -3,9 +3,9 @@
 <%= game_event.game_time %>: <%= game_event.player.full_name %> did
  <%= game_event.event_name %>
 <% unless game_event.subtype_name == "Undefined" %>
-  , <%= game_event.subtype_name %>
+  - <%= game_event.subtype_name %>
 <% end %>
-<% unless game_event.other_player_id == 0 %>
+<% if game_event.has_other_player %>
   with <%= Player.find(game_event.other_player_id).full_name %>
 <% end %>
 </p>
