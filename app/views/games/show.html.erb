@@ -2,9 +2,16 @@
 <% unless @player.nil? %>
   <h2><%= @player.full_name %></h2>
 <% end %>
+<h3>Report</h3>
+<% unless @player.nil? %>
+  <%= render partial: 'shared/match_report', locals: { match_report: GameEvent.match_report(@player.game_events.select { |ge| ge.game_id == @game.id }) } %>
+<% else %>
+  <%= render partial: 'shared/match_report', locals: { match_report: GameEvent.match_report(@game.game_events) } %>
+<% end %>
 <h3>Events</h3>
 <% unless @player.nil? %>
   <%= render @player.game_events.select { |ge| ge.game_id == @game.id }.sort_by { |ge| ge.timestamp } %>
   <% else %>
   <%= render @game.game_events.sort_by { |ge| ge.timestamp } %>
 <% end %>
+
