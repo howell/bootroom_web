@@ -3,39 +3,80 @@ class GameEvent < ActiveRecord::Base
   belongs_to :player
   validates :player_id, presence: true
 
+  # Primary Types
+  PASS = 1
+  SHOT = 2
+  SUBSTITUTION = 3
+  SHOT_AGAINST = 4
+  TACKLE = 5
+  FOUL = 6
+  YELLOW_CARD = 7
+  RED_CARD = 8
+  INTERCEPTION = 9
+  CLEARANCE = 10
+  DRIBBLE = 11
 
-  def event_names
-    { 1 => "Pass",
-      2 => "Shot",
-      3 => "Substitution",
-      4 => "Shot against",
-      5 => "Tackle",
-      6 => "Foul",
-      7 => "Yellow Card",
-      8 => "Red Card" }
-  end
+  # Pass Sub-Types
+  PASS_COMPLETE = 1
+  PASS_INCOMPLETE = 2
+  PASS_KEY = 3
+  ASSIST = 4
 
-  def event_subtype_names
-    { 1 => { 1 => "Complete", 2 => "Incomplete", 3 => "Key",
-             4 => "Assist"},
-      2 => { 1 => "On Target", 2 => "Off Target", 3 => "Goal" },
-      3 => { 1 => "Sub On", 2 => "Sub Off" },
-      4 => { 1 => "Save", 2 => "Conceded" } }
-  end
+  # Shot Sub-Types
+  SHOT_ON_TARGET = 1
+  SHOT_OFF_TARGET = 2
+  GOAL = 3
+
+  # Substitution Sub-Types
+  SUBSTITUTION_ON = 1
+  SUBSTITUTION_OFF = 2
+
+  # Shot-Against Sub-Types
+  SAVE = 1
+  CONCEDED = 2
+
+  # for events where there is no other player
+  NONE = 0
+
+  EVENT_NAMES = {
+      PASS          => "Pass",
+      SHOT          => "Shot",
+      SUBSTITUTION  => "Substitution",
+      SHOT_AGAINST  => "Shot against",
+      TACKLE        => "Tackle",
+      FOUL          => "Foul",
+      YELLOW_CARD   => "Yellow Card",
+      RED_CARD      => "Red Card",
+      INTERCEPTION  => "Interception",
+      CLEARANCE     => "Clearance",
+      DRIBBLE       => "Dribble" }
+
+  EVENT_SUBTYPE_NAMES =
+    { PASS          => { PASS_COMPLETE    => "Complete",
+                         PASS_INCOMPLETE  => "Incomplete",
+                         PASS_KEY         => "Key",
+                         ASSIST           => "Assist"},
+      SHOT          => { SHOT_ON_TARGET   => "On Target",
+                         SHOT_OFF_TARGET  => "Off Target",
+                         GOAL             => "Goal" },
+      SUBSTITUTION  => { SUBSTITUTION_ON  => "Sub On",
+                        SUBSTITUTION_OFF  => "Sub Off" },
+      SHOT_AGAINST  => { SAVE             => "Save",
+                        CONCEDED          => "Conceded" } }
 
   def game_time
     "#{ (timestamp / 60) + 1 }'"
   end
 
   def event_name
-    event_names[event_type]
+    EVENT_NAMES[event_type]
   end
 
   def subtype_name
-    if event_subtype_names[event_type].nil?
+    if EVENT_SUBTYPE_NAMES[event_type].nil?
       nil
     else
-      event_subtype_names[event_type][event_subtype]
+      EVENT_SUBTYPE_NAMES[event_type][event_subtype]
     end
   end
 
@@ -54,18 +95,18 @@ class GameEvent < ActiveRecord::Base
   def self.passing_report(game_events)
     passing_report = { total: 0, complete: 0, incomplete: 0,
                        key: 0, assists: 0 }
-    passing_events = game_events.select { |ge| ge.event_type == 1 }
+    passing_events = game_events.select { |ge| ge.event_type == PASS }
     passing_events.each do |pass|
       passing_report[:total] += 1
       case pass.event_subtype
-      when 1  # Complete
+      when PASS_COMPLETE
         passing_report[:complete] += 1
-      when 2 # Incomplete
+      when PASS_INCOMPLETE
         passing_report[:incomplete] += 1
-      when 3 # Key
+      when PASS_KEY
         passing_report[:key] += 1
         passing_report[:complete] += 1
-      when 4 # Assist
+      when ASSIST
         passing_report[:key] += 1
         passing_report[:complete] += 1
         passing_report[:assists] += 1
@@ -83,15 +124,15 @@ class GameEvent < ActiveRecord::Base
 
   def self.shooting_report(game_events)
     shooting_report = { total: 0, on_target: 0, off_target: 0, goals: 0 }
-    shooting_events = game_events.select { |ge| ge.event_type == 2 }
+    shooting_events = game_events.select { |ge| ge.event_type == SHOT }
     shooting_events.each do |shot|
       shooting_report[:total] += 1
       case shot.event_subtype
-      when 1 # On Target
+      when SHOT_ON_TARGET
         shooting_report[:on_target] += 1
-      when 2 # Off Target
+      when SHOT_OFF_TARGET
         shooting_report[:off_target] += 1
-      when 3 # Goal
+      when GOAL
         shooting_report[:on_target] += 1
         shooting_report[:goals] += 1
       else
@@ -107,9 +148,22 @@ class GameEvent < ActiveRecord::Base
   end
 
   def self.defending_report(game_events)
-    defending_report = { }
-    defending_events = game_events.select { |ge| ge.event_type == 5 }
-    defending_report[:tackles] = defending_events.count
+    defending_report = { tackles: 0, clearances: 0, interceptions: 0 }
+    defending_events = game_events.select do |ge|
+      ge.event_type == TACKLE or ge.event_type == CLEARANCE or \
+        ge.event_type == INTERCEPTION
+    end
+    defending_events.each do |ge|
+      case ge.event_type
+      when TACKLE
+        defending_report[:tackles] += 1
+      when INTERCEPTION
+        defending_report[:interceptions] += 1
+      when CLEARANCE
+        defending_report[:clearances] += 1
+      else
+      end
+    end
     defending_report
   end
 end
