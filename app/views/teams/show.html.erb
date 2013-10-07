@@ -1,7 +1,5 @@
 <h1><%= @team.name %></h1>
-<div class="row span3 offset5">
-  <h3>League: <%= @team.league %></h3>
-</div>
+<h3>League: <%= @team.league %></h3>
 
 <div class="row">
   <div class="span4">
@@ -10,7 +8,7 @@
       <%= render @players %>
     </ul>
   </div>
-  <div class="span4 offset1">
+  <div class="span4 offset2">
     <h3>Games</h3>
     <ul>
       <% @team.home_games.each do |g| %>
