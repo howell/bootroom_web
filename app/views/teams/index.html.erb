@@ -1,0 +1,10 @@
+<h1>Teams</h1>
+<%= will_paginate %>
+<ul>
+  <% @teams.each do |t| %>
+    <li>
+      <%= link_to "#{t.name}", t %>
+    </li>
+  <% end %>
+</ul>
+<%= will_paginate %>

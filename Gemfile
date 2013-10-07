@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 # custom
 gem 'rails_12factor'
 gem 'bootstrap-sass'
+gem 'will_paginate', '~> 3.0'
+gem 'bootstrap-will_paginate', '~> 0.0.9'
 
 group :development, :test do
   gem 'rspec-rails'

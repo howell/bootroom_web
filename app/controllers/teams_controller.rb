@@ -1,8 +1,12 @@
 class TeamsController < ApplicationController
+
+  def index
+    @teams = Team.paginate(page: params[:page])
+  end
+
   def show
     @team = Team.find(params[:id])
     @players = @team.players
-    @player = Player.new
   end
 
   def new
