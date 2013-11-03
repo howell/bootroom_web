@@ -1,12 +1,16 @@
 <li>
 <p>
-<%= game_event.game_time %>: <%= game_event.player.full_name %> did
- <%= game_event.event_name %>
-<% unless game_event.subtype_name == "Undefined" %>
-  - <%= game_event.subtype_name %>
-<% end %>
-<% if game_event.has_other_player %>
-  with <%= Player.find(game_event.other_player_id).full_name %>
+<% if game_event.conceded? %>
+  <%= game_event.game_time %>: Conceded
+<% else %>
+  <%= game_event.game_time %>: <%= game_event.player.full_name %> did
+  <%= game_event.event_name %>
+  <% unless game_event.blank? %>
+    - <%= game_event.subtype_name %>
+  <% end %>
+  <% if game_event.has_other_player %>
+    with <%= Player.find(game_event.other_player_id).full_name %>
+  <% end %>
 <% end %>
 </p>
 </li>

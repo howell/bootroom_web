@@ -84,6 +84,10 @@ class GameEvent < ActiveRecord::Base
     !(other_player_id.blank? || other_player_id == 0)
   end
 
+  def conceded?
+    event_type == SHOT_AGAINST && event_subtype == CONCEDED
+  end
+
   def self.match_report(game_events)
     match_report = { }
     match_report[:passing] = passing_report(game_events)
