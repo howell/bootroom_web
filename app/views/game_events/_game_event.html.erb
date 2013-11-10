@@ -11,6 +11,9 @@
   <% if game_event.has_other_player %>
     with <%= Player.find(game_event.other_player_id).full_name %>
   <% end %>
+  <% unless game_event.position.blank? %>
+    at <%= game_event.position %>
+  <% end %>
 <% end %>
 </p>
 </li>
