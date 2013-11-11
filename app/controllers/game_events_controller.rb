@@ -19,7 +19,8 @@ class GameEventsController < ApplicationController
     def game_event_params
       params.require(:game_event).permit(:timestamp, :player_id,
                                          :game_id, :event_type,
-                                         :event_subtype, :other_player_id)
+                                         :event_subtype, :other_player_id,
+                                         :position)
     end
 
 end
