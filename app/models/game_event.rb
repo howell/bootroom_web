@@ -18,6 +18,9 @@ class GameEvent < ActiveRecord::Base
   GK_COLLECT = 12
   PUNT = 13
   GOAL_KICK = 14
+  FOULED = 15
+  DISPOSSESSED = 16
+  OFFSIDES = 17
 
   # Pass Sub-Types
   PASS_COMPLETE = 1
@@ -42,6 +45,10 @@ class GameEvent < ActiveRecord::Base
   GK_SUCCESSFUL = 1
   GK_UNSUCCESSFUL = 2
 
+  # Interception Sub-types
+  INT_ANTICIPATION = 1
+  INT_POSITIONING = 2
+
   # for events where there is no other player
   NONE = 0
 
@@ -59,7 +66,10 @@ class GameEvent < ActiveRecord::Base
       DRIBBLE       => "Dribble",
       GK_COLLECT    => "Collect a cross",
       PUNT          => "Punt",
-      GOAL_KICK     => "Goal Kick" }
+      GOAL_KICK     => "Goal Kick",
+      FOULED        => "Fouled",
+      DISPOSSESSED  => "Dispossessed",
+      OFFSIDES      => "Offsides" }
 
   EVENT_SUBTYPE_NAMES =
     { PASS          => { PASS_COMPLETE    => "Complete",
@@ -78,7 +88,9 @@ class GameEvent < ActiveRecord::Base
       PUNT          => { GK_SUCCESSFUL    => "Successful",
                          GK_UNSUCCESSFUL  => "Unsuccessful"},
       GOAL_KICK     => { GK_SUCCESSFUL    => "Successful",
-                         GK_UNSUCCESSFUL  => "Unsuccessful"} }
+                         GK_UNSUCCESSFUL  => "Unsuccessful"},
+      INTERCEPTION  => { INT_POSITIONING  => "Positioning",
+                         INT_ANTICIPATION => "Anticipation" } }
 
   def game_time
     "#{ (timestamp / 60) + 1 }'"
