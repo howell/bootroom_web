@@ -19,7 +19,10 @@ group :test do
   gem 'selenium-webdriver', '~> 2.35.1'
   gem 'capybara'
   gem 'growl'
+  gem 'factory_girl_rails'
 end
+
+gem 'faker'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
