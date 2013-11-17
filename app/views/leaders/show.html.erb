@@ -1,2 +1,11 @@
-<h1>Leaders#show</h1>
-<p>Find me in app/views/leaders/show.html.erb</p>
+<h1>Leaders</h1>
+<% @Leaders.each do |s, arr| %>
+  <b><%= s.to_s %></b>
+  <ol>
+  <% arr.each do |l| %>
+    <li>
+    <%= l[0].full_name + ", " + "#{l[1]}" %>
+    </li>
+  <% end %>
+  </ol>
+<% end %>
