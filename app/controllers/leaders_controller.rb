@@ -1,8 +1,10 @@
 class LeadersController < ApplicationController
   def show
     @Team = Team.find(params[:id])
+    game = nil
     if params[:game_id]
-      @Events = Game.find(params[:game_id]).game_events
+      game = Game.find(params[:game_id])
+      @Events = game.game_events
     else
       @Events = @Team.home_games.collect { |g| g.game_events }
       @Events << @Team.away_games.collect { |g| g.game_events }
@@ -27,7 +29,7 @@ class LeadersController < ApplicationController
       leaderboard[:tackles][p] = match_report[:defending][:tackles]
       leaderboard[:interceptions][p] =match_report[:defending][:interceptions]
       leaderboard[:clearances][p] = match_report[:defending][:clearances]
-      leaderboard[:minutes][p] = 0 # TODO
+      leaderboard[:minutes][p] = GameEvent::playing_time(p, game)
     end
     @Leaders = { }
     leaderboard.each do |k, v|

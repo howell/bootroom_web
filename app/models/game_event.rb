@@ -3,6 +3,7 @@ class GameEvent < ActiveRecord::Base
   belongs_to :player
   validates :player_id, presence: true
 
+  include GameEventsHelper
   include GameEventTypes
 
   def game_time
@@ -115,4 +116,43 @@ class GameEvent < ActiveRecord::Base
     end
     defending_report
   end
+
+  # From all the events for a certain player in a game, calculate the number of
+  # minutes they played
+  def self.playing_time(player, game = nil)
+    events = nil
+    if game
+      events = game.game_events.select do |ge|
+        ge.player_id == player.id
+      end
+    else
+      events = player.game_events
+    end
+    if events.length == 0
+      return 0
+    end
+    ordered = events.sort_by { |e| e.timestamp }
+    on_the_field = false
+    playing_time = 0
+    last_time = 0
+    if ordered[0].event_type != SUBSTITUTION
+      on_the_field = true
+    end
+    ordered.each do |e|
+      if e.event_type == SUBSTITUTION
+        if e.event_subtype == SUBSTITUTION_ON
+          last_time = e.timestamp
+          on_the_field = true
+        else
+          playing_time += e.timestamp - last_time
+          on_the_field = false
+        end
+      end
+    end
+    if on_the_field
+      playing_time += (90 * 60) - last_time
+    end
+    return playing_time / 60
+  end
+
 end
