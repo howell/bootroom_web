@@ -1,11 +1,12 @@
 class LeadersController < ApplicationController
   def show
     @Team = Team.find(params[:id])
-    game = nil
+    games = nil
     if params[:game_id]
-      game = Game.find(params[:game_id])
-      @Events = game.game_events
+      games = [Game.find(params[:game_id])]
+      @Events = games[0].game_events
     else
+      games = ([@Team.home_games] + [@Team.away_games]).flatten
       @Events = @Team.home_games.collect { |g| g.game_events }
       @Events << @Team.away_games.collect { |g| g.game_events }
       @Events.flatten!
@@ -29,7 +30,10 @@ class LeadersController < ApplicationController
       leaderboard[:tackles][p] = match_report[:defending][:tackles]
       leaderboard[:interceptions][p] =match_report[:defending][:interceptions]
       leaderboard[:clearances][p] = match_report[:defending][:clearances]
-      leaderboard[:minutes][p] = GameEvent::playing_time(p, game)
+      leaderboard[:minutes].default = 0
+      games.each do |g|
+        leaderboard[:minutes][p] += GameEvent::playing_time(p, g) if g
+      end
     end
     @Leaders = { }
     leaderboard.each do |k, v|

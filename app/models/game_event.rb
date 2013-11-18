@@ -119,14 +119,9 @@ class GameEvent < ActiveRecord::Base
 
   # From all the events for a certain player in a game, calculate the number of
   # minutes they played
-  def self.playing_time(player, game = nil)
-    events = nil
-    if game
-      events = game.game_events.select do |ge|
-        ge.player_id == player.id
-      end
-    else
-      events = player.game_events
+  def self.playing_time(player, game)
+    events = game.game_events.select do |ge|
+      ge.player_id == player.id
     end
     if events.length == 0
       return 0
