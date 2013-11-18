@@ -8,6 +8,9 @@
 <% else %>
   <%= render partial: 'shared/match_report', locals: { match_report: GameEvent.match_report(@game.game_events) } %>
 <% end %>
+<p>
+  <%= link_to "Leaders", leaders_path(@game.home_team, @game) %>
+</p>
 <h3>Events</h3>
 <% unless @player.nil? %>
   <%= render @player.game_events.select { |ge| ge.game_id == @game.id }.sort_by { |ge| ge.timestamp } %>

@@ -1,6 +1,10 @@
 <h1><%= @team.name %></h1>
 <h3>League: <%= @team.league %></h3>
 
+<p>
+  <%= link_to "Leaders", leaders_path(@team) %>
+</p>
+
 <div class="row">
   <div class="span4">
     <h3>Roster</h3>

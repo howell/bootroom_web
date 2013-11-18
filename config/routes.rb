@@ -6,7 +6,7 @@ Bootroom::Application.routes.draw do
   resources :games
   resources :game_events
 
-  get "leaders/show/team/:id(/game/:game_id)", to: 'leaders#show'
+  get "leaders/show/team/:id(/game/:game_id)", to: 'leaders#show', as: :leaders
 
   root 'teams#index'
   # The priority is based upon order of creation: first created -> highest priority.
