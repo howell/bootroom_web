@@ -1,4 +1,7 @@
 class GameEventsController < ApplicationController
+
+  respond_to :html, :json
+
   def new
     @game_event = GameEvent.new
   end
@@ -6,8 +9,10 @@ class GameEventsController < ApplicationController
   def create
     @game_event = GameEvent.create(game_event_params)
     if @game_event.save
-    end
+      respond_with @game_event
+    else
       render 'new'
+    end
   end
 
   def show
